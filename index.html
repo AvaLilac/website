@@ -5,91 +5,96 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ava's Photography</title>
 
-<meta property="og:title" content="Ava's Photography" />
-<meta property="og:description" content="Hello, My name is Ava. This website shows photos I have taken, which also includes an invite link to my 'german' Discord server. I hope you like what photos I take." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://avalilac.github.io/website/" />
-
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Ava's Photography" />
-<meta name="twitter:description" content="Hello, My name is Ava. This website shows photos I have taken, which also includes an invite link to my 'german' Discord server. I hope you like what photos I take." />
-
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
-html, body{height:100%; overflow:hidden;}
-body{background:#0f0f10;color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center;}
-
-header{padding:20px;text-align:center; flex-shrink:0;}
-header h1{font-size:2.5rem;font-weight:600;letter-spacing:-1px;}
-header p{margin-top:5px;font-size:1rem;color:#9a9a9a;}
-
-.main-section{display:flex;justify-content:center;align-items:flex-start;gap:20px; flex:1; max-width:1200px; width:100%; padding:20px; box-sizing:border-box; position:relative;}
-
-.slideshow-container{
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Inter', system-ui, sans-serif; }
+html, body {
+    height:100%;
+    overflow:hidden; 
+    background:#0f0f12;
+    color:#fff;
     display:flex;
     flex-direction:column;
-    flex:1 1 600px;
-    max-width:650px;
+    align-items:center;
 }
 
-.slideshow-wrapper{
-    overflow:hidden;
-    border-radius:14px;
-    background:#1a1a1a;
+header {
+  text-align:center;
+  padding:20px;
+}
+header h1 {
+  font-size:2.8rem;
+  font-weight:700;
+  letter-spacing:-1px;
+  background:linear-gradient(90deg, #a259ff, #ff63c3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+header p {
+  margin-top:10px;
+  font-size:1.1rem;
+  color:#ccc;
+  max-width:700px;
+  margin-left:auto;
+  margin-right:auto;
 }
 
-.slideshow{
-    display:flex;
-    gap:10px;
-    padding:10px;
-    transition: transform 0.4s ease;
+.main-section {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:30px;
+  width:100%;
+  flex:1;
+  padding-bottom:20px;
 }
 
-.slideshow img{
-    height:300px;
-    object-fit:cover;
-    border-radius:8px;
-    user-select:none;
-    pointer-events:none;
-    -webkit-user-drag:none;
-    user-drag:none;
+.slideshow-container {
+  display:flex;
+  flex-direction:column;
+  max-width:650px;
+  flex:1 1 auto;
+  background:#1a1a1f;
+  border-radius:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+  overflow:hidden;
 }
 
-.carousel-controls{
-    display:flex;
-    justify-content:center;
-    gap:20px;
-    margin-top:10px;
+.slideshow-wrapper {
+  overflow:hidden;
 }
 
-.carousel-controls button{
-    background: #1a1a1a;
-    color: #fff;
-    border: 1px solid #333;
-    padding: 8px 20px;
-    font-size: 1.2rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
+.slideshow {
+  display:flex;
+  gap:12px;
+  padding:15px;
+  will-change: transform;
 }
 
-.carousel-controls button:hover{
-    background:#333;
-    color:#fff;
+.slideshow img {
+  height:300px;
+  border-radius:12px;
+  object-fit:cover;
+  pointer-events:none;
+  user-select:none;
+  -webkit-user-drag:none;
 }
 
-.discord-widget{flex:0 0 350px; display:flex;justify-content:center;align-items:flex-start;}
+.discord-widget {
+  flex:0 0 350px;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
 
-footer{padding:10px;text-align:center;font-size:.8rem;color:#777; flex-shrink:0;}
-
-@media(max-width:1000px){
-    .main-section{flex-direction:column;align-items:center;}
-    .slideshow-container{width:100%;}
-    .discord-widget{width:100%;}
+/* Responsive */
+@media(max-width:1024px){
+  .main-section{flex-direction:column;align-items:center;}
+  .slideshow-container, .discord-widget{width:100%;}
 }
 @media(max-width:768px){
-    .slideshow img{height:200px;}
-    header h1{font-size:1.8rem;}
+  .slideshow img{height:220px;}
+  header h1{font-size:2.2rem;}
+  header p{font-size:1rem;}
 }
 </style>
 </head>
@@ -97,27 +102,19 @@ footer{padding:10px;text-align:center;font-size:.8rem;color:#777; flex-shrink:0;
 
 <header>
     <h1>Ava's Photography</h1>
-    <p>Hello, My name is Ava. This website shows photos I have taken, which also includes an invite link to my "german" Discord server. I hope you like what photos I take.</p>
+    <p>Hello, My name is Ava.<br>This website shows photos I have taken, which also includes an invite link to my "german" Discord server.<br>I hope you like what photos I take.</p>
 </header>
 
 <div class="main-section">
     <div class="slideshow-container">
-        <div class="slideshow-wrapper" id="slideshowWrapper">
+        <div class="slideshow-wrapper">
             <div class="slideshow" id="slideshow"></div>
-        </div>
-        <div class="carousel-controls">
-            <button id="prevBtn">&lt;</button>
-            <button id="nextBtn">&gt;</button>
         </div>
     </div>
     <div class="discord-widget">
         <iframe src="https://discord.com/widget?id=1462665545122840630&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
     </div>
 </div>
-
-<footer>
-    © 2026 Ava Lilac
-</footer>
 
 <script>
 const username = "AvaLilac";
@@ -126,9 +123,6 @@ const branch = "main";
 const folder = "images";
 
 const slideshow = document.getElementById("slideshow");
-const wrapper = document.getElementById("slideshowWrapper");
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
 
 async function loadImages() {
     try {
@@ -138,10 +132,22 @@ async function loadImages() {
 
         const images = data.filter(file => file.name.match(/\.(png|jpg|jpeg|gif|webp)$/i));
 
-        images.forEach(file => {
-            const img = document.createElement("img");
-            img.src = `https://raw.githubusercontent.com/${username}/${repo}/${branch}/${folder}/${file.name}`;
-            slideshow.appendChild(img);
+        const allImages = [];
+        for(let i=0;i<3;i++){
+            images.forEach(file => {
+                const img = document.createElement("img");
+                img.src = `https://raw.githubusercontent.com/${username}/${repo}/${branch}/${folder}/${file.name}`;
+                slideshow.appendChild(img);
+                allImages.push(img);
+            });
+        }
+
+        let loadedCount = 0;
+        allImages.forEach(img => {
+            img.onload = () => {
+                loadedCount++;
+                if(loadedCount === allImages.length) startAutoScroll(images.length);
+            }
         });
 
     } catch (err) {
@@ -149,25 +155,23 @@ async function loadImages() {
     }
 }
 
-loadImages();
+let scrollPos = 0;
+function startAutoScroll(originalCount) {
+    const firstSet = Array.from(slideshow.children).slice(0, originalCount);
+    const firstSetWidth = firstSet.reduce((acc, img) => acc + img.offsetWidth + 12, 0); 
 
-let scrollAmount = 0;
-
-nextBtn.addEventListener("click", ()=>{
-    const slideWidth = slideshow.children[0]?.offsetWidth + 10 || 300; // image width + gap
-    scrollAmount += slideWidth;
-    if(scrollAmount > slideshow.scrollWidth - wrapper.offsetWidth){
-        scrollAmount = slideshow.scrollWidth - wrapper.offsetWidth;
+    function scroll() {
+        scrollPos += 1; 
+        if(scrollPos >= firstSetWidth) {
+            scrollPos -= firstSetWidth; 
+        }
+        slideshow.style.transform = `translateX(${-scrollPos}px)`;
+        requestAnimationFrame(scroll);
     }
-    slideshow.style.transform = `translateX(${-scrollAmount}px)`;
-});
+    scroll();
+}
 
-prevBtn.addEventListener("click", ()=>{
-    const slideWidth = slideshow.children[0]?.offsetWidth + 10 || 300;
-    scrollAmount -= slideWidth;
-    if(scrollAmount < 0) scrollAmount = 0;
-    slideshow.style.transform = `translateX(${-scrollAmount}px)`;
-});
+loadImages();
 </script>
 
 </body>
