@@ -13,15 +13,15 @@ header h1{font-size:3rem;font-weight:600;letter-spacing:-1px;}
 header p{margin-top:15px;font-size:1.1rem;color:#9a9a9a;}
 .gallery-section{padding:60px 20px;max-width:1100px;margin:auto;}
 .gallery-section h2{font-size:1.8rem;margin-bottom:25px;font-weight:500;}
-.slideshow{position:relative;width:100%;height:520px;overflow:hidden;border-radius:14px;background:#1a1a1a;}
-.slideshow img{position:absolute;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.4s ease, transform 6s ease;}
-.slideshow img.active{opacity:1;transform:scale(1.05);}
+.slideshow-wrapper{position:relative;width:100%;height:300px;overflow:hidden;border-radius:14px;background:#1a1a1a;}
+.slideshow{display:flex;position:absolute;white-space:nowrap;will-change:transform;}
+.slideshow img{height:100%;margin-right:10px;flex-shrink:0;object-fit:cover;}
 .discord-section{padding:90px 20px;text-align:center;}
 .discord-section h2{margin-bottom:30px;font-weight:500;}
 .discord-widget{display:flex;justify-content:center;}
 footer{padding:40px 20px;text-align:center;font-size:.9rem;color:#777;}
 @media(max-width:768px){
-.slideshow{height:350px;}
+.slideshow-wrapper{height:200px;}
 header h1{font-size:2.2rem;}
 }
 </style>
@@ -35,7 +35,9 @@ header h1{font-size:2.2rem;}
 
 <section class="gallery-section">
     <h2>Featured Work</h2>
-    <div class="slideshow" id="slideshow"></div>
+    <div class="slideshow-wrapper">
+        <div class="slideshow" id="slideshow"></div>
+    </div>
 </section>
 
 <section class="discord-section">
@@ -68,29 +70,36 @@ async function loadImages() {
 
         images.forEach(file => {
             const img = document.createElement("img");
-            // Use raw.githubusercontent.com link
             img.src = `https://raw.githubusercontent.com/${username}/${repo}/${branch}/${folder}/${file.name}`;
             slideshow.appendChild(img);
         });
 
-        startSlideshow();
+        // duplicate images for seamless loop
+        images.forEach(file => {
+            const img = document.createElement("img");
+            img.src = `https://raw.githubusercontent.com/${username}/${repo}/${branch}/${folder}/${file.name}`;
+            slideshow.appendChild(img);
+        });
+
+        startScrolling();
     } catch (err) {
         console.error("Failed to load images:", err);
     }
 }
 
-function startSlideshow() {
-    const slides = document.querySelectorAll(".slideshow img");
-    if (slides.length === 0) return;
+function startScrolling() {
+    const slider = document.querySelector(".slideshow");
+    let pos = 0;
+    const speed = 0.5; // pixels per frame
 
-    let current = 0;
-    slides[current].classList.add("active");
+    function animate() {
+        pos -= speed;
+        if(Math.abs(pos) >= slider.scrollWidth / 2) pos = 0;
+        slider.style.transform = `translateX(${pos}px)`;
+        requestAnimationFrame(animate);
+    }
 
-    setInterval(() => {
-        slides[current].classList.remove("active");
-        current = (current + 1) % slides.length;
-        slides[current].classList.add("active");
-    }, 4000);
+    animate();
 }
 
 loadImages();
