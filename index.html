@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ava's Photography</title>
 
+<meta property="og:title" content="Ava's Photography">
+<meta property="og:description" content="Hello, my name is Ava. This website shows photos I have taken, which also includes an invite link to my German Discord server. I hope you like what photos I take.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://avalilac.github.io/website/">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ava's Photography">
+<meta name="twitter:description" content="Hello, my name is Ava. This website shows photos I have taken, which also includes an invite link to my German Discord server. I hope you like what photos I take.">
+
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family: 'Inter', system-ui, sans-serif; }
 html, body {
@@ -86,7 +95,6 @@ header p {
   box-shadow:0 10px 25px rgba(0,0,0,0.4);
 }
 
-/* Responsive */
 @media(max-width:1024px){
   .main-section{flex-direction:column;align-items:center;}
   .slideshow-container, .discord-widget{width:100%;}
@@ -102,7 +110,7 @@ header p {
 
 <header>
     <h1>Ava's Photography</h1>
-    <p>Hello, My name is Ava.<br>This website shows photos I have taken, which also includes an invite link to my "german" Discord server.<br>I hope you like what photos I take.</p>
+    <p>Hello, My name is Ava.<br>This website shows photos I have taken, which also includes an invite link to my "German" Discord server.<br>I hope you like what photos I take.</p>
 </header>
 
 <div class="main-section">
@@ -163,7 +171,7 @@ function startAutoScroll(originalCount) {
     function scroll() {
         scrollPos += 1; 
         if(scrollPos >= firstSetWidth) {
-            scrollPos -= firstSetWidth; 
+            scrollPos -= firstSetWidth;
         }
         slideshow.style.transform = `translateX(${-scrollPos}px)`;
         requestAnimationFrame(scroll);
