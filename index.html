@@ -7,22 +7,81 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
-body{background:#0f0f10;color:#fff;overflow-x:hidden;}
-header{padding:100px 20px 70px;text-align:center;}
-header h1{font-size:3rem;font-weight:600;letter-spacing:-1px;}
-header p{margin-top:15px;font-size:1.1rem;color:#9a9a9a;}
-.gallery-section{padding:60px 20px;max-width:1100px;margin:auto;}
-.gallery-section h2{font-size:1.8rem;margin-bottom:25px;font-weight:500;}
-.slideshow-wrapper{position:relative;width:100%;height:300px;overflow:hidden;border-radius:14px;background:#1a1a1a;}
-.slideshow{display:flex;position:absolute;white-space:nowrap;will-change:transform;}
-.slideshow img{height:100%;margin-right:10px;flex-shrink:0;object-fit:cover;}
-.discord-section{padding:90px 20px;text-align:center;}
-.discord-section h2{margin-bottom:30px;font-weight:500;}
-.discord-widget{display:flex;justify-content:center;}
-footer{padding:40px 20px;text-align:center;font-size:.9rem;color:#777;}
+html, body{height:100%; overflow:hidden;}
+body{background:#0f0f10;color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center;}
+
+header{padding:20px;text-align:center; flex-shrink:0;}
+header h1{font-size:2.5rem;font-weight:600;letter-spacing:-1px;}
+header p{margin-top:5px;font-size:1rem;color:#9a9a9a;}
+
+.main-section{display:flex;justify-content:center;align-items:flex-start;gap:20px; flex:1; max-width:1200px; width:100%; padding:20px; box-sizing:border-box; position:relative;}
+
+.slideshow-container{
+    display:flex;
+    flex-direction:column;
+    flex:1 1 600px;
+    max-width:650px;
+}
+
+.slideshow-wrapper{
+    overflow:hidden;
+    border-radius:14px;
+    background:#1a1a1a;
+}
+
+.slideshow{
+    display:flex;
+    gap:10px;
+    padding:10px;
+    transition: transform 0.4s ease;
+}
+
+.slideshow img{
+    height:300px;
+    object-fit:cover;
+    border-radius:8px;
+    user-select:none;
+    pointer-events:none;
+    -webkit-user-drag:none;
+    user-drag:none;
+}
+
+/* Buttons below carousel */
+.carousel-controls{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    margin-top:10px;
+}
+
+.carousel-controls button{
+    background: #1a1a1a;
+    color: #fff;
+    border: 1px solid #333;
+    padding: 8px 20px;
+    font-size: 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.carousel-controls button:hover{
+    background:#333;
+    color:#fff;
+}
+
+.discord-widget{flex:0 0 350px; display:flex;justify-content:center;align-items:flex-start;}
+
+footer{padding:10px;text-align:center;font-size:.8rem;color:#777; flex-shrink:0;}
+
+@media(max-width:1000px){
+    .main-section{flex-direction:column;align-items:center;}
+    .slideshow-container{width:100%;}
+    .discord-widget{width:100%;}
+}
 @media(max-width:768px){
-.slideshow-wrapper{height:200px;}
-header h1{font-size:2.2rem;}
+    .slideshow img{height:200px;}
+    header h1{font-size:1.8rem;}
 }
 </style>
 </head>
@@ -33,33 +92,38 @@ header h1{font-size:2.2rem;}
     <p>Personal work & visual storytelling. Join the Discord to see more.</p>
 </header>
 
-<section class="gallery-section">
-    <h2>Featured Work</h2>
-    <div class="slideshow-wrapper">
-        <div class="slideshow" id="slideshow"></div>
+<div class="main-section">
+    <div class="slideshow-container">
+        <div class="slideshow-wrapper" id="slideshowWrapper">
+            <div class="slideshow" id="slideshow"></div>
+        </div>
+        <div class="carousel-controls">
+            <button id="prevBtn">&lt;</button>
+            <button id="nextBtn">&gt;</button>
+        </div>
     </div>
-</section>
-
-<section class="discord-section">
-    <h2>Join the Discord</h2>
     <div class="discord-widget">
         <iframe src="https://discord.com/widget?id=1462665545122840630&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
     </div>
-</section>
+</div>
 
 <footer>
     © 2026 Ava Lilac
 </footer>
 
 <script>
-const slideshow = document.getElementById("slideshow");
-
 // GitHub info
 const username = "AvaLilac";
 const repo = "website";
 const branch = "main";
 const folder = "images";
 
+const slideshow = document.getElementById("slideshow");
+const wrapper = document.getElementById("slideshowWrapper");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+// Load images from GitHub
 async function loadImages() {
     try {
         const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${folder}?ref=${branch}`;
@@ -74,35 +138,31 @@ async function loadImages() {
             slideshow.appendChild(img);
         });
 
-        // duplicate images for seamless loop
-        images.forEach(file => {
-            const img = document.createElement("img");
-            img.src = `https://raw.githubusercontent.com/${username}/${repo}/${branch}/${folder}/${file.name}`;
-            slideshow.appendChild(img);
-        });
-
-        startScrolling();
     } catch (err) {
         console.error("Failed to load images:", err);
     }
 }
 
-function startScrolling() {
-    const slider = document.querySelector(".slideshow");
-    let pos = 0;
-    const speed = 0.5; // pixels per frame
-
-    function animate() {
-        pos -= speed;
-        if(Math.abs(pos) >= slider.scrollWidth / 2) pos = 0;
-        slider.style.transform = `translateX(${pos}px)`;
-        requestAnimationFrame(animate);
-    }
-
-    animate();
-}
-
 loadImages();
+
+// Carousel functionality
+let scrollAmount = 0;
+
+nextBtn.addEventListener("click", ()=>{
+    const slideWidth = slideshow.children[0]?.offsetWidth + 10 || 300; // image width + gap
+    scrollAmount += slideWidth;
+    if(scrollAmount > slideshow.scrollWidth - wrapper.offsetWidth){
+        scrollAmount = slideshow.scrollWidth - wrapper.offsetWidth;
+    }
+    slideshow.style.transform = `translateX(${-scrollAmount}px)`;
+});
+
+prevBtn.addEventListener("click", ()=>{
+    const slideWidth = slideshow.children[0]?.offsetWidth + 10 || 300;
+    scrollAmount -= slideWidth;
+    if(scrollAmount < 0) scrollAmount = 0;
+    slideshow.style.transform = `translateX(${-scrollAmount}px)`;
+});
 </script>
 
 </body>
