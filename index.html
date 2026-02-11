@@ -52,29 +52,48 @@ header h1{font-size:2.2rem;}
 <script>
 const slideshow = document.getElementById("slideshow");
 
-// Put your images here directly from raw.githubusercontent.com
-const images = [
-    "https://raw.githubusercontent.com/AvaLilac/website/main/images/photo1.png",
-    "https://raw.githubusercontent.com/AvaLilac/website/main/images/photo2.png",
-    "https://raw.githubusercontent.com/AvaLilac/website/main/images/photo3.png"
-];
+// GitHub info
+const username = "AvaLilac";
+const repo = "website";
+const branch = "main";
+const folder = "images";
 
-images.forEach(url => {
-    const img = document.createElement("img");
-    img.src = url;
-    slideshow.appendChild(img);
-});
+async function loadImages() {
+    try {
+        const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${folder}?ref=${branch}`;
+        const res = await fetch(apiUrl);
+        const data = await res.json();
 
-let current = 0;
-const slides = document.querySelectorAll(".slideshow img");
-if(slides.length > 0){
+        const images = data.filter(file => file.name.match(/\.(png|jpg|jpeg|gif|webp)$/i));
+
+        images.forEach(file => {
+            const img = document.createElement("img");
+            // Use raw.githubusercontent.com link
+            img.src = `https://raw.githubusercontent.com/${username}/${repo}/${branch}/${folder}/${file.name}`;
+            slideshow.appendChild(img);
+        });
+
+        startSlideshow();
+    } catch (err) {
+        console.error("Failed to load images:", err);
+    }
+}
+
+function startSlideshow() {
+    const slides = document.querySelectorAll(".slideshow img");
+    if (slides.length === 0) return;
+
+    let current = 0;
     slides[current].classList.add("active");
-    setInterval(()=>{
+
+    setInterval(() => {
         slides[current].classList.remove("active");
         current = (current + 1) % slides.length;
         slides[current].classList.add("active");
-    },4000);
+    }, 4000);
 }
+
+loadImages();
 </script>
 
 </body>
