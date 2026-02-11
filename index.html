@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Photography Discord</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+
+body{
+    background:#0f0f10;
+    color:#ffffff;
+    overflow-x:hidden;
+}
+
+header{
+    padding:100px 20px 70px;
+    text-align:center;
+}
+
+header h1{
+    font-size:3rem;
+    font-weight:600;
+    letter-spacing:-1px;
+}
+
+header p{
+    margin-top:15px;
+    font-size:1.1rem;
+    color:#9a9a9a;
+}
+
+.gallery-section{
+    padding:60px 20px;
+    max-width:1100px;
+    margin:auto;
+}
+
+.gallery-section h2{
+    font-size:1.8rem;
+    margin-bottom:25px;
+    font-weight:500;
+}
+
+.slideshow{
+    position:relative;
+    width:100%;
+    height:520px;
+    overflow:hidden;
+    border-radius:14px;
+    background:#1a1a1a;
+}
+
+.slideshow img{
+    position:absolute;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    opacity:0;
+    transition:opacity 1.4s ease;
+}
+
+.slideshow img.active{
+    opacity:1;
+}
+
+.discord-section{
+    padding:90px 20px;
+    text-align:center;
+}
+
+.discord-section h2{
+    margin-bottom:30px;
+    font-weight:500;
+}
+
+.discord-widget{
+    display:flex;
+    justify-content:center;
+}
+
+footer{
+    padding:40px 20px;
+    text-align:center;
+    font-size:.9rem;
+    color:#777;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>My Photography</h1>
+    <p>A collection of my work. Join the Discord to see more.</p>
+</header>
+
+<section class="gallery-section">
+    <h2>Featured Work</h2>
+    <div class="slideshow" id="slideshow"></div>
+</section>
+
+<section class="discord-section">
+    <h2>Join the Discord</h2>
+    <div class="discord-widget">
+        <iframe src="https://discord.com/widget?id=1462665545122840630&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+    </div>
+</section>
+
+<footer>
+    © 2026 My Photography
+</footer>
+
+<script>
+const slideshow = document.getElementById("slideshow");
+
+fetch("images/images.json")
+    .then(response => response.json())
+    .then(images => {
+        images.forEach(file => {
+            const img = document.createElement("img");
+            img.src = "images/" + file;
+            slideshow.appendChild(img);
+        });
+        startSlideshow();
+    })
+    .catch(err => console.error("Could not load images.json", err));
+
+function startSlideshow(){
+    const images = document.querySelectorAll(".slideshow img");
+    if(images.length === 0) return;
+
+    let current = 0;
+    images[current].classList.add("active");
+
+    setInterval(()=>{
+        images[current].classList.remove("active");
+        current = (current + 1) % images.length;
+        images[current].classList.add("active");
+    },4000);
+}
+</script>
+
+</body>
+</html>
