@@ -3,7 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ava Lilac Photography</title>
+<title>Ava's Photography</title>
+
+<meta property="og:title" content="Ava's Photography" />
+<meta property="og:description" content="I share Photos I take in my discord server!" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://avalilac.github.io/website/" />
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Ava's Photography" />
+<meta name="twitter:description" content="I share Photos I take in my discord server!" />
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
@@ -88,7 +97,7 @@ footer{padding:10px;text-align:center;font-size:.8rem;color:#777; flex-shrink:0;
 <body>
 
 <header>
-    <h1>Ava Lilac Photography</h1>
+    <h1>Ava's Photography</h1>
     <p>Personal work & visual storytelling. Join the Discord to see more.</p>
 </header>
 
@@ -112,7 +121,6 @@ footer{padding:10px;text-align:center;font-size:.8rem;color:#777; flex-shrink:0;
 </footer>
 
 <script>
-// GitHub info
 const username = "AvaLilac";
 const repo = "website";
 const branch = "main";
@@ -123,7 +131,6 @@ const wrapper = document.getElementById("slideshowWrapper");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 
-// Load images from GitHub
 async function loadImages() {
     try {
         const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/${folder}?ref=${branch}`;
